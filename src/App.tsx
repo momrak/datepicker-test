@@ -12,6 +12,8 @@ function DatePicker({ field }: { field: ControllerRenderProps }) {
     <LocalizationProvider locale={nb} dateAdapter={DateAdapter}>
       <MuiDatePicker
         renderInput={(params) => <TextField {...params} />}
+        mask="__.__.____"
+        inputFormat="DD.MM.YYYY"
         {...field}
         onChange={(e) => {
           console.log("CHANGING");
@@ -28,7 +30,6 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">My form</header>
       <div>
         <label htmlFor="fromDate">From Date</label>
         <Controller
