@@ -1,45 +1,52 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { LocalizationProvider } from "@mui/lab";
+import DateAdapter from "@mui/lab/AdapterDayjs";
+import MuiDatePicker from "@mui/lab/DatePicker";
+import TextField from "@mui/material/TextField";
+import nb from "dayjs/locale/nb";
+import React, { useState } from "react";
+import { Controller, ControllerRenderProps, useForm } from "react-hook-form";
+import "./App.css";
+
+function DatePicker({ field }: { field: ControllerRenderProps }) {
+  return (
+    <LocalizationProvider locale={nb} dateAdapter={DateAdapter}>
+      <MuiDatePicker
+        renderInput={(params) => <TextField {...params} />}
+        {...field}
+        onChange={(e) => {
+          console.log("CHANGING");
+          console.log(e);
+          field.onChange(e);
+        }}
+      />
+    </LocalizationProvider>
+  );
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { control } = useForm();
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <header className="App-header">My form</header>
+      <div>
+        <label htmlFor="fromDate">From Date</label>
+        <Controller
+          name="fromDate"
+          control={control}
+          render={({ field }) => <DatePicker field={field} />}
+        />
+      </div>
+      <div>
+        <label htmlFor="fromDate">To Date</label>
+        <Controller
+          name="fromDate"
+          control={control}
+          render={({ field }) => <DatePicker field={field} />}
+        />
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
